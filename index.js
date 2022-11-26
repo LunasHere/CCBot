@@ -77,11 +77,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 router.post('/suggest',(request,response) => {
-    console.log(request.body.suggestion);
-    response.send("OK");
+    if(request.body.secret != config.secret) {
+        response.status(401).send("Invalid secret");
+        return;
+    }
     const channel = client.channels.cache.get(config.channelid);
 
-    // Create an embed that is blue
     const embed = new EmbedBuilder()
         .setTitle("Suggestion")
         .setDescription("This suggestion was created in-game with the /suggest command.")
@@ -100,8 +101,9 @@ router.post('/suggest',(request,response) => {
         message: {
             embeds: [embed],
         }
-    }).then(thread => console.log("Created thread " + thread.id))
+    }).then(thread => console.log("New suggestion created: " + thread.id))
     .catch(console.error);
+    response.send("OK");
 });
 
 app.use("/", router);
