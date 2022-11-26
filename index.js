@@ -1,5 +1,4 @@
-const { REST, Routes, Client, EmbedBuilder, GatewayIntentBits, Collection } = require('discord.js');
-const { clientId, guildId, token } = require('./config.json');
+const { REST, Routes, Client, EmbedBuilder, GatewayIntentBits, Collection, ActivityType } = require('discord.js');
 const client = new Client({ intents: [
     GatewayIntentBits.Guilds,
 	GatewayIntentBits.GuildMessages,
@@ -33,6 +32,13 @@ const rest = new REST({ version: '10' }).setToken(token);
 
 client.on("ready", () => {
     console.log("Logged in as " + client.user.tag);
+    client.user.setPresence({
+        status: "online",
+        activities: [{
+            name: "your feelings <3",
+            type: ActivityType.Listening
+        }]
+    });
 });
 
 (async () => {
