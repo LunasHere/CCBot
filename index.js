@@ -70,7 +70,7 @@ client.on('interactionCreate', async interaction => {
 client.login(token);
 
 app.listen(config.port, function() {
-    console.log("Server started on port " + config.port);");
+    console.log("Server started on port " + config.port);
 });
 
 app.use(bodyParser.urlencoded({ extended: false }));
