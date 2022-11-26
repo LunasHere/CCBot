@@ -28,7 +28,7 @@ for (const file of commandFiles) {
 	}
 }
 
-const rest = new REST({ version: '10' }).setToken(token);
+const rest = new REST({ version: '10' }).setToken(config.token);
 
 client.on("ready", () => {
     console.log("Logged in as " + client.user.tag);
@@ -73,7 +73,7 @@ client.on('interactionCreate', async interaction => {
 });
 
 
-client.login(token);
+client.login(config.token);
 
 app.listen(config.port, function() {
     console.log("Server started on port " + config.port);
