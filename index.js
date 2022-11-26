@@ -85,7 +85,7 @@ router.post('/suggest',(request,response) => {
 
     const embed = new EmbedBuilder()
         .setTitle("Suggestion")
-        .setDescription("This suggestion was created in-game with the /suggest command.")
+        .setDescription("*This suggestion was created in-game with the /suggest command.*")
         .addFields(
             { name: "Suggestion", value: request.body.suggestion },
             { name: "Author", value: request.body.username },
