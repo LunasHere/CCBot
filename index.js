@@ -69,14 +69,14 @@ client.on('interactionCreate', async interaction => {
 
 client.login(token);
 
-app.listen(3000, function() {
-    console.log("Server started on port 3000");
+app.listen(config.port, function() {
+    console.log("Server started on port " + config.port);");
 });
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-router.post('/handle',(request,response) => {
+router.post('/suggest',(request,response) => {
     console.log(request.body.suggestion);
     response.send("OK");
     const channel = client.channels.cache.get(config.channelid);
