@@ -1,0 +1,22 @@
+{
+  "name": "ccbot",
+  "version": "0.0.1",
+  "description": "CottonCraft Discord bot, used for suggestions and other things!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LunasHere/CCBot.git"
+  },
+  "author": "Luna",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LunasHere/CCBot/issues"
+  },
+  "homepage": "https://github.com/LunasHere/CCBot#readme",
+  "dependencies": {
+    "discord.js": "^14.6.0"
+  }
+}
