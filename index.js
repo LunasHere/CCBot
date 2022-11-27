@@ -44,6 +44,17 @@ client.player = new Player(client, {
     },
 });
 
+// Track start event
+client.player.on("trackStart", (queue, track) => {
+    const embed = new EmbedBuilder()
+        .setTitle("CCBot Music")
+        .setDescription(`🎶 | Now playing **${track.title}**!`)
+        .setColor(0x00FF00)
+        .setTimestamp();
+    queue.metadata.send({ embeds: [embed] });
+});
+
+
 // Discord ready event
 client.on("ready", () => {
     // Shows the bot is online
