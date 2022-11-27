@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/LunasHere/CCBot#readme",
   "dependencies": {
+    "@discordjs/opus": "github:discordjs/opus",
     "body-parser": "^1.20.1",
     "discord-player": "^5.3.2",
     "discord.js": "^14.6.0",
