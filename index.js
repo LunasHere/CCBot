@@ -4,6 +4,7 @@ const client = new Client({ intents: [
 	GatewayIntentBits.GuildMessages,
 	GatewayIntentBits.MessageContent,
 	GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildVoiceStates,
 ] });
 const fs = require('node:fs');
 const config = require('./config.json');
