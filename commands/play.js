@@ -19,7 +19,17 @@ module.exports = {
 
         // check if songname is empty or undefined
         if (!songname) {
-            // unpause the song
+            // check if user is in a voice channel
+            if (!interaction.member.voice.channel) {
+                await interaction.reply({ content: 'You must be in a voice channel to use this command!', ephemeral: true });
+                return;
+            }
+            // check if the bot is in a voice channel
+            if (interaction.client.voice.connections == interaction.member.voice.channel.id) {
+                await interaction.reply({ content: 'You must be in the same voice channel as the bot to use this command!', ephemeral: true });
+                return;
+            }
+            
             interaction.client.player.getQueue(interaction.guild).setPaused(false);
             const embed = new EmbedBuilder()
                 .setTitle('CCBot Music')
