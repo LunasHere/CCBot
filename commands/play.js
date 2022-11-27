@@ -14,6 +14,18 @@ module.exports = {
         // Get the song
         const songname = interaction.options.getString('song');
 
+
+        // Check if the user is in a voice channel
+        if (!interaction.member.voice.channel) {
+            await interaction.reply({ content: 'You must be in a voice channel to use this command!', ephemeral: true });
+            return;
+        }
+        // Check if the bot is in a voice channel
+        if (interaction.client.voice.connections == interaction.member.voice.channel.id) {
+            await interaction.reply({ content: 'You must be in the same voice channel as the bot to use this command!', ephemeral: true });
+            return;
+        }
+
         const queue = await interaction.client.player.createQueue(interaction.guild);
 		if (!queue.connection) await queue.connect(interaction.member.voice.channel);
 
@@ -29,7 +41,7 @@ module.exports = {
                 await interaction.reply({ content: 'You must be in the same voice channel as the bot to use this command!', ephemeral: true });
                 return;
             }
-            
+
             interaction.client.player.getQueue(interaction.guild).setPaused(false);
             const embed = new EmbedBuilder()
                 .setTitle('CCBot Music')
@@ -40,18 +52,27 @@ module.exports = {
             return;
         }
 
-        // Check if the user is in a voice channel
-        if (!interaction.member.voice.channel) {
-            await interaction.reply({ content: 'You must be in a voice channel to use this command!', ephemeral: true });
-            return;
-        }
-        // Check if the bot is in a voice channel
-        if (interaction.client.voice.connections == interaction.member.voice.channel.id) {
-            await interaction.reply({ content: 'You must be in the same voice channel as the bot to use this command!', ephemeral: true });
-            return;
-        }
         // Check if song is a youtube watch url
-        if (songname.match(/^https?:\/\/(www.youtube.com|youtube.com)\/watch(.*)$/)) {
+        if (songname.match(/^.*(youtu.be\/|list=)([^#\&\?]*).*/)) {
+            const result = await interaction.client.player.search(songname, {
+                requestedBy: interaction.user,
+                searchEngine: QueryType.AUTO
+            });
+            if (!result || !result.tracks.length) {
+                await interaction.reply({ content: 'No results were found!', ephemeral: true });
+                return;
+            }
+            const playlist = result.playlist;
+            await queue.addTracks(result.tracks);
+            const embed = new EmbedBuilder()
+                .setTitle('CCBot Music')
+                .setDescription(`${result.tracks.length} songs from playlist ${playlist.title} have been added to the Queue`)
+                
+                .setColor(0x00FF00)
+                .setTimestamp();
+            await interaction.reply({ embeds: [embed] });
+        // check if song is a playlist url
+        } else if (songname.match(/^https?:\/\/(www.youtube.com|youtube.com)\/watch(.*)$/)) {
             const result = await interaction.client.player.search(songname, {
                 requestedBy: interaction.user,
                 searchEngine: QueryType.AUTO
@@ -68,26 +89,8 @@ module.exports = {
                 .setColor(0x00FF00)
                 .setTimestamp();
             await interaction.reply({ embeds: [embed] });
-        // check if song is a youtube playlist url
-        } else if (songname.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
-            const result = await interaction.client.player.playlist(songname, {
-                requestedBy: interaction.user,
-                searchEngine: QueryType.AUTO
-            });
-            if (!result || !result.tracks.length) {
-                await interaction.reply({ content: 'No results were found!', ephemeral: true });
-                return;
-            }
-            await queue.addTracks(result.tracks);
-            const embed = new EmbedBuilder()
-                .setTitle('CCBot Music')
-                .setDescription(`${result.tracks.length} songs from playlist ${playlist.title} have been added to the Queue`)
-                
-                .setColor(0x00FF00)
-                .setTimestamp();
-            await interaction.reply({ embeds: [embed] });
+        // Search for song
         } else {
-            // Search for the song
             const result = await interaction.client.player.search(songname, {
                 requestedBy: interaction.user,
                 searchEngine: QueryType.AUTO
