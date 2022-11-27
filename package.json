@@ -1,6 +1,6 @@
 {
   "name": "ccbot",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "CottonCraft Discord bot, used for suggestions and other things!",
   "main": "index.js",
   "scripts": {
