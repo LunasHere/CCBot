@@ -1,12 +1,15 @@
 ## CCBot
 CCBot is a Discord bot for the [CottonCraft Discord](https://discord.gg/YYTBg3fQAZ). It is written in JS and uses the [Discord.js](https://discord.js.org/#/) library.
 
+## Features
+- Music
+- Suggestion management
+
 ## Features to come
 - [ ] Moderation
 - [ ] Fun
 - [ ] Economy
 - [ ] Leveling
-- [X] Music
 - [ ] Games
 - [ ] Utility
 
