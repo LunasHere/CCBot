@@ -70,8 +70,7 @@ module.exports = {
             await queue.addTracks(result.tracks);
             const embed = new EmbedBuilder()
                 .setTitle('CCBot Music')
-                .setDescription(`${result.tracks.length} songs from playlist ${playlist.title} have been added to the Queue`)
-                
+                .setDescription(`${result.tracks.length} songs from playlist [${playlist.title}](${playlist.url}) have been added to the Queue`)
                 .setColor(0x00FF00)
                 .setTimestamp();
             await interaction.reply({ embeds: [embed] });
@@ -89,7 +88,7 @@ module.exports = {
             await queue.addTrack(song);
             const embed = new EmbedBuilder()
                 .setTitle('CCBot Music')
-                .setDescription(`Added ${song.title} to the queue!`)
+                .setDescription(`Added [${song.title}](${song.url}) to the queue!`)
                 .setColor(0x00FF00)
                 .setTimestamp();
             await interaction.reply({ embeds: [embed] });
@@ -107,7 +106,7 @@ module.exports = {
             await queue.addTrack(song);
             const embed = new EmbedBuilder()
                 .setTitle('CCBot Music')
-                .setDescription(`Added ${song.title} to the queue!`)
+                .setDescription(`Added [${song.title}](${song.url}) to the queue!`)
                 .setColor(0x00FF00)
                 .setTimestamp();
             await interaction.reply({ embeds: [embed] });
