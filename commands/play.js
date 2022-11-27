@@ -27,7 +27,11 @@ module.exports = {
         }
 
         const queue = await interaction.client.player.createQueue(interaction.guild);
+
 		if (!queue.connection) await queue.connect(interaction.member.voice.channel);
+
+        // set metadata
+        queue.metadata = interaction.channel;
 
         // check if songname is empty or undefined
         if (!songname) {
