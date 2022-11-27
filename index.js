@@ -11,6 +11,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const router = express.Router();
 const app = express();
+const { Player } = require("discord-player")
 
 // Register the commands
 const commands = [];
@@ -33,6 +34,14 @@ for (const file of commandFiles) {
 
 // Create a new Discord REST instance
 const rest = new REST({ version: '10' }).setToken(config.token);
+
+// Set up player
+client.player = new Player(client, {
+    ytdlOptions: {
+        quality: "highestaudio",
+        highWaterMark: 1 << 25,
+    },
+});
 
 // Discord ready event
 client.on("ready", () => {
