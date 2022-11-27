@@ -48,7 +48,7 @@ client.player = new Player(client, {
 client.player.on("trackStart", (queue, track) => {
     const embed = new EmbedBuilder()
         .setTitle("CCBot Music")
-        .setDescription(`🎶 | Now playing **${track.title}**!`)
+        .setDescription(`🎶 | Now playing **[${track.title}](${track.url})**!`)
         .setColor(0x00FF00)
         .setTimestamp();
     queue.metadata.send({ embeds: [embed] });
