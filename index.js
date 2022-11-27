@@ -7,31 +7,38 @@ const client = new Client({ intents: [
 ] });
 const fs = require('node:fs');
 const config = require('./config.json');
-
 const express = require("express");
 const bodyParser = require("body-parser");
 const router = express.Router();
 const app = express();
 
+// Register the commands
 const commands = [];
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 client.commands = new Collection();
 
+// Load the commands
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	commands.push(command.data.toJSON());
-	// Set a new item in the Collection with the key as the command name and the value as the exported module
+	// Ensure the command has the correct properties
 	if ('data' in command && 'execute' in command) {
+        // Register the command
 		client.commands.set(command.data.name, command);
 	} else {
+        // Log the error
 		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 	}
 }
 
+// Create a new Discord REST instance
 const rest = new REST({ version: '10' }).setToken(config.token);
 
+// Discord ready event
 client.on("ready", () => {
+    // Shows the bot is online
     console.log("Logged in as " + client.user.tag);
+    // Set the bot status
     client.user.setPresence({
         status: "online",
         activities: [{
@@ -41,54 +48,65 @@ client.on("ready", () => {
     });
 });
 
+// Register the commands
 (async () => {
 	try {
 		console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
+        // Send the commands to the Discord API
 		const data = await rest.put(
 			Routes.applicationCommands(config.clientid),
 			{ body: commands },
 		);
-
+        
 		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
 	} catch (error) {
+        // Log the error
 		console.error(error);
 	}
 })();
 
+// Interaction handler
 client.on('interactionCreate', async interaction => {
+    // Check if the interaction is a command
     if (!interaction.isCommand()) return;
 
-    // commands are stored in an array, so we can use the array.find() method to find the command that matches the name
+    // Obtain the command
     const command = interaction.client.commands.get(interaction.commandName);
 
+    // Check if the command exists
     if (!command) return;
 
     try {
+        // Execute the command
         await command.execute(interaction);
     } catch (error) {
+        // Log the error and reply to the user
         console.error(error);
         await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
     }
 });
 
-
+// Login to Discord
 client.login(config.token);
 
-app.listen(config.port, function() {
-    console.log("Server started on port " + config.port);
-});
-
+// Use the body-parser package in our application
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// register /suggest route
 router.post('/suggest',(request,response) => {
+    // Check if the secret is correct
     if(request.body.secret != config.secret) {
+        // Secret is incorrect, return 401
         response.status(401).send("Invalid secret");
         return;
     }
+
+    // Get the suggestion channel
     const channel = client.channels.cache.get(config.channelid);
 
+    // Create the embed
     const embed = new EmbedBuilder()
         .setTitle("Suggestion")
         .setDescription("*This suggestion was created in-game with the /suggest command.*")
@@ -99,6 +117,7 @@ router.post('/suggest',(request,response) => {
         .setColor(0x00FF00)
         .setTimestamp();
     
+    // Create the thread
     channel.threads.create({
         name: "Suggestion by " + request.body.username,
         autoArchiveDuration: 1440,
@@ -109,7 +128,14 @@ router.post('/suggest',(request,response) => {
         }
     }).then(thread => console.log("New suggestion created: " + thread.id))
     .catch(console.error);
+    // Send the response
     response.send("OK");
 });
 
+// register the route
 app.use("/", router);
+
+// Start the server
+app.listen(config.port, function() {
+    console.log("Server started on port " + config.port);
+});
