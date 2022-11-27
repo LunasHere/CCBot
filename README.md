@@ -6,7 +6,7 @@ CCBot is a Discord bot for the [CottonCraft Discord](https://discord.gg/YYTBg3fQ
 - [ ] Fun
 - [ ] Economy
 - [ ] Leveling
-- [ ] Music
+- [X] Music
 - [ ] Games
 - [ ] Utility
 
