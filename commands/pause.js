@@ -27,6 +27,7 @@ module.exports = {
         }
         // Pause the song
         interaction.client.player.getQueue(interaction.guild).setPaused(true);
+        interaction.client.player.getQueue(interaction.guild).metadata.isPlaying = false;
         const embed = new EmbedBuilder()
             .setTitle('CCBot Music')
             .setDescription('Paused the current song!')
