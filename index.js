@@ -16,21 +16,27 @@ const { Player } = require("discord-player")
 
 // Register the commands
 const commands = [];
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 client.commands = new Collection();
 
-// Load the commands
-for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	commands.push(command.data.toJSON());
-	// Ensure the command has the correct properties
-	if ('data' in command && 'execute' in command) {
-        // Register the command
-		client.commands.set(command.data.name, command);
-	} else {
-        // Log the error
-		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
-	}
+const commandFolders = fs.readdirSync('./commands');
+
+for (const folder of commandFolders) {
+    const commandFiles = fs
+        .readdirSync(`./commands/${folder}`)
+        .filter((file) => file.endsWith('.js'));
+
+    for (const file of commandFiles) {
+        const command = require(`./commands/${folder}/${file}`);
+        commands.push(command.data.toJSON());
+	    // Ensure the command has the correct properties
+	    if ('data' in command && 'execute' in command) {
+            // Register the command
+	    	client.commands.set(command.data.name, command);
+	    } else {
+            // Log the error
+	    	console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+	    }
+    }
 }
 
 // Create a new Discord REST instance
