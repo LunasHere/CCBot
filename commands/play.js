@@ -14,7 +14,6 @@ module.exports = {
         // Get the song
         const songname = interaction.options.getString('song');
 
-
         // Check if the user is in a voice channel
         if (!interaction.member.voice.channel) {
             await interaction.reply({ content: 'You must be in a voice channel to use this command!', ephemeral: true });
@@ -26,34 +25,36 @@ module.exports = {
             return;
         }
 
+        // Create the queue
         const queue = await interaction.client.player.createQueue(interaction.guild);
-
 		if (!queue.connection) await queue.connect(interaction.member.voice.channel);
 
-        // set metadata
-        queue.metadata = interaction.channel;
 
-        // check if songname is empty or undefined
+        // Check if there is metadata
+        if (!queue.metadata) {
+            // Set the metadata
+            queue.metadata = {
+                'channel': interaction.channel,
+                'user': interaction.user,
+                'isPlaying': true
+            }
+        }
+
+        // Check if songname is empty or undefined
         if (!songname) {
-            // check if user is in a voice channel
-            if (!interaction.member.voice.channel) {
-                await interaction.reply({ content: 'You must be in a voice channel to use this command!', ephemeral: true });
-                return;
+            console.log
+            if(queue.metadata.isPlaying) {
+                return interaction.reply({ content: 'There is already a song playing!', ephemeral: true });
             }
-            // check if the bot is in a voice channel
-            if (interaction.client.voice.connections == interaction.member.voice.channel.id) {
-                await interaction.reply({ content: 'You must be in the same voice channel as the bot to use this command!', ephemeral: true });
-                return;
-            }
-
+            // Resume the song
             interaction.client.player.getQueue(interaction.guild).setPaused(false);
+            interaction.client.player.getQueue(interaction.guild).metadata.isPlaying = true;
             const embed = new EmbedBuilder()
                 .setTitle('CCBot Music')
                 .setDescription('Unpaused the current song!')
                 .setColor(0x00FF00)
                 .setTimestamp();
-            await interaction.reply({ embeds: [embed] });
-            return;
+            return await interaction.reply({ embeds: [embed] });
         }
 
         // Check if song is a youtube watch url
