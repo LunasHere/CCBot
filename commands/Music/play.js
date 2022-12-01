@@ -42,7 +42,6 @@ module.exports = {
 
         // Check if songname is empty or undefined
         if (!songname) {
-            console.log
             if(queue.metadata.isPlaying) {
                 return interaction.reply({ content: 'There is already a song playing!', ephemeral: true });
             }
