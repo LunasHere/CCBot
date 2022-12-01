@@ -51,7 +51,7 @@ client.player.on("trackStart", (queue, track) => {
         .setDescription(`🎶 | Now playing **[${track.title}](${track.url})**!`)
         .setColor(0x00FF00)
         .setTimestamp();
-    queue.metadata.send({ embeds: [embed] });
+    queue.metadata.channel.send({ embeds: [embed] });
 });
 // Channel empty event
 client.player.on("channelEmpty", (queue) => {
@@ -60,7 +60,7 @@ client.player.on("channelEmpty", (queue) => {
         .setDescription("🎶 | No one is in the voice channel, leaving the channel.")
         .setColor(0x00FF00)
         .setTimestamp();
-    queue.metadata.send({ embeds: [embed] });
+    queue.metadata.channel.send({ embeds: [embed] });
 });
 // Queue end event
 client.player.on("queueEnd", (queue) => {
@@ -69,7 +69,7 @@ client.player.on("queueEnd", (queue) => {
         .setDescription("🎶 | Queue ended.")
         .setColor(0x00FF00)
         .setTimestamp();
-    queue.metadata.send({ embeds: [embed] });
+    queue.metadata.channel.send({ embeds: [embed] });
 });
 
 // Discord ready event
