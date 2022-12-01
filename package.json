@@ -18,6 +18,7 @@
   "homepage": "https://github.com/LunasHere/CCBot#readme",
   "dependencies": {
     "@discordjs/opus": "github:discordjs/opus",
+    "anime-images-api": "^2.0.0",
     "body-parser": "^1.20.1",
     "discord-player": "^5.3.2",
     "discord.js": "^14.6.0",
