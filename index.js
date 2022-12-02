@@ -46,6 +46,8 @@ con.query(
     }
 );
 
+client.con = con;
+
 // Register the commands
 const commands = [];
 client.commands = new Collection();
@@ -181,7 +183,7 @@ router.post('/suggest',(request,response) => {
     }
 
     // Get the suggestion channel
-    const channel = client.channels.cache.get(config.channelid);
+    const channel = client.channels.cache.get(config.suggestionchannelid);
 
     // Create the embed
     const embed = new EmbedBuilder()
@@ -297,3 +299,17 @@ const manager = new GiveawayManagerWithOwnDatabase(client, {
 });
 // We now have a giveawaysManager property to access the manager everywhere!
 client.giveawayManager = manager;
+
+const EconomyManager = require('./managers/economymanager.js');
+// Create new economy manager
+const economy = new EconomyManager(client);
+
+client.economyManager = economy;
+
+const InventoryManager = require('./managers/inventorymanager.js');
+
+const inventory = new InventoryManager(client);
+
+client.inventoryManager = inventory;
+
+    
