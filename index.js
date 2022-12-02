@@ -5,6 +5,7 @@ const client = new Client({ intents: [
 	GatewayIntentBits.MessageContent,
 	GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildMessageReactions,
 ] });
 const fs = require('node:fs');
 const config = require('./config.json');
@@ -13,6 +14,37 @@ const bodyParser = require("body-parser");
 const router = express.Router();
 const app = express();
 const { Player } = require("discord-player")
+const { GiveawaysManager } = require('discord-giveaways');
+
+// Create mycon connection
+const mycon = require('mysql2');
+const con = mycon.createConnection({
+    host: config.mysql.host,
+    user: config.mysql.user,
+    password: config.mysql.password,
+    database: config.mysql.database
+});
+// Connect to mycon
+con.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected to Mysql database!");
+});
+// Create giveaway table if not exists
+con.query(
+    `
+	CREATE TABLE IF NOT EXISTS \`giveaways\`
+	(
+		\`id\` INT(1) NOT NULL AUTO_INCREMENT,
+		\`message_id\` VARCHAR(20) NOT NULL,
+		\`data\` JSON NOT NULL,
+		PRIMARY KEY (\`id\`)
+	);
+`,
+    (err) => {
+        if (err) console.error(err);
+        console.log('[SQL] Created table `giveaways`');
+    }
+);
 
 // Register the commands
 const commands = [];
@@ -38,6 +70,7 @@ for (const folder of commandFolders) {
 	    }
     }
 }
+
 
 // Create a new Discord REST instance
 const rest = new REST({ version: '10' }).setToken(config.token);
@@ -183,3 +216,84 @@ app.use("/", router);
 app.listen(config.port, function() {
     console.log("Server started on port " + config.port);
 });
+
+
+// Setup giveaway manager
+const GiveawayManagerWithOwnDatabase = class extends GiveawaysManager {
+    // This function is called when the manager needs to get all giveaways which are stored in the database.
+    async getAllGiveaways() {
+        return new Promise((resolve, reject) => {
+            con.query('SELECT `data` FROM `giveaways`', (err, res) => {
+                if (err) {
+                    console.error(err);
+                    return reject(err);
+                }
+                const giveaways = res.map((row) =>
+                    JSON.parse(row.data, (_, v) =>
+                        typeof v === 'string' && /BigInt\("(-?\d+)"\)/.test(v) ? eval(v) : v
+                    )
+                );
+                resolve(giveaways);
+            });
+        });
+    }
+
+    // This function is called when a giveaway needs to be saved in the database.
+    async saveGiveaway(messageId, giveawayData) {
+        return new Promise((resolve, reject) => {
+            con.query(
+                'INSERT INTO `giveaways` (`message_id`, `data`) VALUES (?,?)',
+                [messageId, JSON.stringify(giveawayData, (_, v) => (typeof v === 'bigint' ? `BigInt("${v}")` : v))],
+                (err, res) => {
+                    if (err) {
+                        console.error(err);
+                        return reject(err);
+                    }
+                    resolve(true);
+                }
+            );
+        });
+    }
+
+    // This function is called when a giveaway needs to be edited in the database.
+    async editGiveaway(messageId, giveawayData) {
+        return new Promise((resolve, reject) => {
+            con.query(
+                'UPDATE `giveaways` SET `data` = ? WHERE `message_id` = ?',
+                [JSON.stringify(giveawayData, (_, v) => (typeof v === 'bigint' ? `BigInt("${v}")` : v)), messageId],
+                (err, res) => {
+                    if (err) {
+                        console.error(err);
+                        return reject(err);
+                    }
+                    resolve(true);
+                }
+            );
+        });
+    }
+
+    // This function is called when a giveaway needs to be deleted from the database.
+    async deleteGiveaway(messageId) {
+        return new Promise((resolve, reject) => {
+            con.query('DELETE FROM `giveaways` WHERE `message_id` = ?', messageId, (err, res) => {
+                if (err) {
+                    console.error(err);
+                    return reject(err);
+                }
+                resolve(true);
+            });
+        });
+    }
+};
+
+// Create a new instance of your new class
+const manager = new GiveawayManagerWithOwnDatabase(client, {
+    default: {
+        botsCanWin: false,
+        embedColor: '#FF0000',
+        embedColorEnd: '#000000',
+        reaction: '🎉'
+    }
+});
+// We now have a giveawaysManager property to access the manager everywhere!
+client.giveawayManager = manager;
