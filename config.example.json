@@ -3,5 +3,11 @@
     "port": 8080,
     "token": "",
     "clientid": "",
-    "channelid": ""
+    "channelid": "",
+    "mysql": {
+        "host": "",
+        "user": "",
+        "password": "",
+        "database": ""
+   }
 }
