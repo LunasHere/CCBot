@@ -3,7 +3,8 @@
     "port": 8080,
     "token": "",
     "clientid": "",
-    "channelid": "",
+    "suggestionchannelid": "",
+    "shoppurchasechannelid": "",
     "mysql": {
         "host": "",
         "user": "",
