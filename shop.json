@@ -1,0 +1,14 @@
+{
+    "items": [
+        {
+            "id": 1,
+            "name": "Color Roles",   
+            "price": 10.0
+        },
+        {   
+            "id": 2,
+            "name": "Discord Nitro",
+            "price": 20.0
+        }
+    ]
+}
