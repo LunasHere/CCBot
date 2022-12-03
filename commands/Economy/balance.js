@@ -17,7 +17,5 @@ module.exports = {
             .setTitle(`${user.username}'s Balance`)
             .setDescription(`🪙 | **Balance:** ${balance} coins`);
         interaction.reply({ embeds: [embed] });
-
-        interaction.client.economyManager.addBalance(user, 100);
     },
 };
