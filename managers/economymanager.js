@@ -12,7 +12,7 @@ class EconomyManager {
     async getBalance(user) {
         return new Promise((resolve, reject) => {
             // Get the balance of the user
-            this.client.con.query('SELECT * FROM `economy` WHERE `user_id`', [user.id], (err, res) => {
+            this.client.con.query('SELECT * FROM `economy` WHERE `user_id` = ?', [user.id], (err, res) => {
                 if (err) {
                     console.error(err);
                     return reject(err);
