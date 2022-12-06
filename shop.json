@@ -2,11 +2,16 @@
     "items": [
         {
             "id": 1,
+            "name": "Goodies in-game",
+            "price": 2500.0
+        },
+        {
+            "id": 2,
             "name": "Color Roles",   
             "price": 4500.0
         },
         {   
-            "id": 2,
+            "id": 3,
             "name": "Discord Nitro",
             "price": 6500.0
         }
