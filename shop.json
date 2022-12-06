@@ -3,12 +3,12 @@
         {
             "id": 1,
             "name": "Color Roles",   
-            "price": 10.0
+            "price": 4500.0
         },
         {   
             "id": 2,
             "name": "Discord Nitro",
-            "price": 20.0
+            "price": 6500.0
         }
     ]
 }
