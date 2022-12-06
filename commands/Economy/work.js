@@ -10,7 +10,8 @@ module.exports = {
         if (cooldown > Date.now()) {
             return interaction.reply({ content: `You are on cooldown for ${ms(cooldown - Date.now(), { long: true })}!`, ephemeral: true });
         }
-        const amount = Math.floor(Math.random() * 50) + 1;
+        
+        const amount = Math.floor(Math.random() * 26) + 25;
         interaction.client.economyManager.addBalance(interaction.user, amount);
         interaction.client.cooldownManager.addCooldown('work', interaction.user, 86400000);
         const embed = new EmbedBuilder()
