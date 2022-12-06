@@ -301,15 +301,11 @@ const manager = new GiveawayManagerWithOwnDatabase(client, {
 client.giveawayManager = manager;
 
 const EconomyManager = require('./managers/economymanager.js');
-// Create new economy manager
 const economy = new EconomyManager(client);
-
 client.economyManager = economy;
 
-const InventoryManager = require('./managers/inventorymanager.js');
-
-const inventory = new InventoryManager(client);
-
-client.inventoryManager = inventory;
+const CooldownManager = require('./managers/cooldownmanager.js');
+const cooldown = new CooldownManager(client);
+client.cooldownManager = cooldown;
 
     
