@@ -7,7 +7,7 @@ module.exports = {
     async execute(interaction) {
         const balance = await interaction.client.economyManager.getBalance(interaction.user);
         const embed = new EmbedBuilder()
-            .setTitle(`${user.username}'s Balance`)
+            .setTitle(`${interaction.user.username}'s Balance`)
             .setDescription(`🪙 | **Balance:** ${balance} coins`);
         interaction.reply({ embeds: [embed] });
     },
