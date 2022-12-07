@@ -1,4 +1,4 @@
-const { Events } = require('discord.js');
+const { Events, EmbedBuilder } = require('discord.js');
 
 module.exports = {
     name: Events.MessageCreate,
@@ -8,10 +8,10 @@ module.exports = {
         // Get the level of the user
         const level = await message.client.levelingManager.getLevel(message.author);
 
-        const cooldown = await interaction.client.cooldownManager.getCooldown('addXP', interaction.user);
+        const cooldown = await message.client.cooldownManager.getCooldown('addXP', message.author);
         if (cooldown > Date.now()) return;
         // Add XP to the user
-        await message.client.levelingManager.addXP(message.author, 100);
+        await message.client.levelingManager.addXP(message.author, 2);
         // Add cooldown to the user of 1 minute
         await message.client.cooldownManager.addCooldown('addXP', message.author, 60000);
         // Check if the user has leveled up

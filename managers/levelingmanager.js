@@ -84,3 +84,6 @@ class LevelingManager {
     }
 
 }
+}
+
+module.exports = LevelingManager;
