@@ -59,4 +59,28 @@ class LevelingManager {
         });
     }
 
+    // Get the xp of a user
+    async getXP(user) {
+        return new Promise((resolve, reject) => {
+            this.client.con.query(`SELECT * FROM leveling WHERE id = ?`, [user.id], (err, res) => {
+                if (err) {
+                    console.error(err);
+                    return reject(err);
+                }
+                if (res.length) {
+                    const xp = res[0].xp % 250;
+                    resolve(xp);
+                } else {
+                    this.client.con.query(`INSERT INTO leveling (id, xp) VALUES (?, ?)`, [user.id, 0], (err, res) => {
+                        if (err) {
+                            console.error(err);
+                            return reject(err);
+                        }
+                        resolve(0);
+                    });
+                }
+            });
+        });
+    }
+
 }
