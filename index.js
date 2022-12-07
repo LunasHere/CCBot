@@ -143,10 +143,6 @@ client.player.on("queueEnd", (queue) => {
 	}
 })();
 
-client.on('levelUp', (channel, member, newLevel) => {
-    channel.send(`🎉 | Congrats ${member}! You have leveled up to level ${newLevel}!`);
-});
-
 // Login to Discord
 client.login(config.token);
 
