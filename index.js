@@ -284,4 +284,6 @@ const CooldownManager = require('./managers/cooldownmanager.js');
 const cooldown = new CooldownManager(client);
 client.cooldownManager = cooldown;
 
-    
+const LevelingManager = require('./managers/levelingmanager.js');
+const leveling = new LevelingManager(client);
+client.levelingManager = leveling;
