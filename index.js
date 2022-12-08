@@ -72,7 +72,19 @@ for (const folder of commandFolders) {
 	    }
     }
 }
+// Register the events in the events folder
+const eventFiles = fs
+    .readdirSync('./events')
+    .filter((file) => file.endsWith('.js'));
 
+for (const file of eventFiles) {
+    const event = require(`./events/${file}`);
+    if (event.once) {
+        client.once(event.name, (...args) => event.execute(...args, client));
+    } else {
+        client.on(event.name, (...args) => event.execute(...args, client));
+    }
+}
 
 // Create a new Discord REST instance
 const rest = new REST({ version: '10' }).setToken(config.token);
@@ -113,20 +125,6 @@ client.player.on("queueEnd", (queue) => {
     queue.metadata.channel.send({ embeds: [embed] });
 });
 
-// Discord ready event
-client.on("ready", () => {
-    // Shows the bot is online
-    console.log("Logged in as " + client.user.tag);
-    // Set the bot status
-    client.user.setPresence({
-        status: "online",
-        activities: [{
-            name: "your feelings <3",
-            type: ActivityType.Listening
-        }]
-    });
-});
-
 // Register the commands
 (async () => {
 	try {
@@ -144,27 +142,6 @@ client.on("ready", () => {
 		console.error(error);
 	}
 })();
-
-// Interaction handler
-client.on('interactionCreate', async interaction => {
-    // Check if the interaction is a command
-    if (!interaction.isCommand()) return;
-
-    // Obtain the command
-    const command = interaction.client.commands.get(interaction.commandName);
-
-    // Check if the command exists
-    if (!command) return;
-
-    try {
-        // Execute the command
-        await command.execute(interaction);
-    } catch (error) {
-        // Log the error and reply to the user
-        console.error(error);
-        await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-    }
-});
 
 // Login to Discord
 client.login(config.token);
@@ -218,7 +195,6 @@ app.use("/", router);
 app.listen(config.port, function() {
     console.log("Server started on port " + config.port);
 });
-
 
 // Setup giveaway manager
 const GiveawayManagerWithOwnDatabase = class extends GiveawaysManager {
@@ -308,4 +284,6 @@ const CooldownManager = require('./managers/cooldownmanager.js');
 const cooldown = new CooldownManager(client);
 client.cooldownManager = cooldown;
 
-    
+const LevelingManager = require('./managers/levelingmanager.js');
+const leveling = new LevelingManager(client);
+client.levelingManager = leveling;

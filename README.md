@@ -5,11 +5,11 @@ CCBot is a Discord bot for the [CottonCraft Discord](https://discord.gg/YYTBg3fQ
 - Music
 - Suggestion management
 - Economy
+- Leveling
 
 ## Features to come
 - [ ] Moderation
 - [ ] Fun
-- [ ] Leveling
 - [ ] Games
 - [ ] Utility
 
