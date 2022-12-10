@@ -8,9 +8,9 @@ CCBot is a Discord bot for the [CottonCraft Discord](https://discord.gg/YYTBg3fQ
 - Leveling
 - Fun
 - Games (more to come)
+- Moderation
 
 ## Features to come
-- [ ] Moderation
 - [ ] Utility
 
 ## Minecraft Plugin
