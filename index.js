@@ -84,7 +84,6 @@ for (const file of eventFiles) {
         client.on(event.name, (...args) => event.execute(...args, client));
     }
 }
-
 // Set up player
 client.player = new Player(client, {
     ytdlOptions: {
@@ -93,7 +92,7 @@ client.player = new Player(client, {
     },
 });
 // Register the player events
-//registerPlayerEvents(client);
+registerPlayerEvents(client);
 
 // Create a new Discord REST instance
 const rest = new REST({ version: '10' }).setToken(config.token);
