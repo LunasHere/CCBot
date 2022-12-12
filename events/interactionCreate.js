@@ -58,7 +58,6 @@ module.exports = {
                 if(!category) return;
                 // Get the description from the modal
                 const description = interaction.fields.getField('description', ComponentType.TextInput);
-                console.log(category, description);
                 // Create the ticket with ticketmanager
                 const ticket = await interaction.client.ticketManager.createTicket(interaction.guild, interaction.user, category, description.value);
                 interaction.reply({ content: `Ticket created! [Click Here](${ticket.url})`, ephemeral: true });
