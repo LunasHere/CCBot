@@ -23,16 +23,11 @@ module.exports = {
             });
 
             const form = new FormData();
-            form.append('transcript', attachment, `${interaction.channel.name}.html`);
+            form.append('transcript', attachment, `${interaction.channel.id}.html`);
             form.append('secret', config.secret);
 
             // Send the transcipt html file to upload.php
             axios.post(config.ticketuploadurl, form)
-            .then(function (response) {
-                if(response.data.contains("ERROR")) {
-                    return interaction.reply({ content: 'Error uploading transcript!', ephemeral: true }); 
-                }
-            })
             .catch(function (error) {
                 console.log(error)
                 return interaction.reply({ content: 'Error uploading transcript!', ephemeral: true });
@@ -43,11 +38,17 @@ module.exports = {
 
             // Get all users in the ticket
             const members = interaction.channel.members;
+
+            const embed = new EmbedBuilder()
+                .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
+                .setDescription(`Your ticket has been closed! You can view the transcript here: ${config.baseticketurl}${interaction.channel.id}.html`)
+                .setColor(0xFF0000)
+                .setTimestamp();
             // Loop through all users
             members.forEach(member => {
                 // Check if user has the staff role
                 if (!member.roles.cache.has(config.staffRole) && !member.user.bot) {
-                    member.send(`Your ticket has been closed! You can view the transcript here: ${config.baseticketurl}${interaction.channel.name}.html`);
+                    member.send({ embeds: [embed] });
                 }
             });
 
