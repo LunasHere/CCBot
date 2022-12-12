@@ -14,16 +14,24 @@ module.exports = {
             option.setName('type')
                 .setDescription('The type of ticket')
                 .setRequired(true)
-                .addChoice('Bug Report', 'bug')
-                .addChoice('Report a Player', 'report')
-                .addChoice('Other', 'other')),
+                .addChoices({
+                    name: 'Player Report',
+                    value: 'report'
+                }, {
+                    name: 'Bug Report',
+                    value: 'bug'
+                }, {
+                    name: 'Other',
+                    value: 'other'
+                }
+                )),
     async execute(interaction) {
         // Get the user
         const user = interaction.options.getUser('user');
         // Get the type
         const type = interaction.options.getString('type');
         // Create the ticket
-        const channel = await interaction.client.ticketManager.createTicket(interaction.guild, user, type, `Ticket created by staff member ${interaction.user.tag}`);
+        const channel = await interaction.client.ticketManager.createTicket(interaction.guild, user, type, `Ticket created by staff member ${interaction.user}`);
         // Create embed
         const embed = new EmbedBuilder()
             .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
