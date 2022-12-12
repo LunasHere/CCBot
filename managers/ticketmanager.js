@@ -16,16 +16,9 @@ class TicketManger {
             // Get ticket category
             const ticketCategory = await guild.channels.cache.find((channel) => channel.name === 'Tickets');
 
-            // Create a random ticket id of 5 digits and make sure a html file with that name doesn't already exist
-            let ticketId = Math.floor(Math.random() * 100000);
-            while (fs.existsSync(`../public/tickets/ticket-${ticketId}.html`)) {
-                ticketId = Math.floor(Math.random() * 100000)
-            }
-
-
             // Create the ticket
             await guild.channels.create({
-                name: `ticket-${ticketId}`,
+                name: `ticket-${user.username}`,
                 type: ChannelType.GuildText
             }).then(channel => {
                 channel.setParent(ticketCategory.id);
