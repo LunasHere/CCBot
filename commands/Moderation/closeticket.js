@@ -26,7 +26,6 @@ module.exports = {
             form.append('transcript', attachment, `${interaction.channel.name}.html`);
             form.append('secret', config.secret);
 
-
             // Send the transcipt html file to upload.php
             axios.post(config.ticketuploadurl, form)
             .then(function (response) {
@@ -35,7 +34,8 @@ module.exports = {
                 }
             })
             .catch(function (error) {
-                console.log(error);
+                console.log(error)
+                return interaction.reply({ content: 'Error uploading transcript!', ephemeral: true });
             });
 
             // Delete the channel
