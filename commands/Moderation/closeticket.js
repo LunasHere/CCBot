@@ -24,6 +24,7 @@ module.exports = {
 
             const form = new FormData();
             form.append('transcript', attachment, `${interaction.channel.name}.html`);
+            form.append('secret', config.secret);
 
 
             // Send the transcipt html file to upload.php
