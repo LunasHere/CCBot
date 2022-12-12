@@ -6,7 +6,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('closeticket')
         .setDescription('Closes a ticket')
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+        .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers)
         .setDMPermission(false),
     async execute(interaction) {
         // Check if the channel is a ticket
@@ -24,7 +24,7 @@ module.exports = {
 
             // Delete the channel
             interaction.channel.delete();
-            
+
             // Send a message to the user
             interaction.reply({ content: 'Ticket closed!', ephemeral: true });
             
