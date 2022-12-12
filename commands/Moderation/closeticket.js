@@ -22,11 +22,10 @@ module.exports = {
             // Save attachment /ticket folder
             fs.writeFileSync(`./public/tickets/${interaction.channel.name}.html`, `${attachment}`);
 
-/*
             // Delete the channel
             interaction.channel.delete();
+            
             // Send a message to the user
-            */
             interaction.reply({ content: 'Ticket closed!', ephemeral: true });
             
         } else {
