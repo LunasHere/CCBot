@@ -8,10 +8,9 @@ module.exports = {
         .setDMPermission(false),
     async execute(interaction) {
         const embed = new EmbedBuilder()
-            .setTitle('Ticket')
+            .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
             .setDescription('Please click the button below to create a ticket!')
-            .setColor(0xFF0000)
-            .setTimestamp();
+            .setColor(0xFF0000);
         const row = new ActionRowBuilder()
             .addComponents([
                 new ButtonBuilder()
