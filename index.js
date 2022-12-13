@@ -213,3 +213,7 @@ client.levelingManager = leveling;
 const WarnManager = require('./managers/warnmanager.js');
 const warning = new WarnManager(client);
 client.warnManager = warning;
+
+const TicketManager = require('./managers/ticketmanager.js');
+const ticket = new TicketManager(client);
+client.ticketManager = ticket;

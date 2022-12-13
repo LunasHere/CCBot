@@ -55,4 +55,6 @@ module.exports.registerWebAPI = function (client) {
     app.listen(config.port, function() {
         console.log("Server started on port " + config.port);
     });
+
+    app.use(express.static('public'));
 }
