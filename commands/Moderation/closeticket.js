@@ -28,7 +28,7 @@ module.exports = {
 
             // Send the transcipt html file to upload.php
             axios.post(config.ticketuploadurl, form)
-            .catch(function (error) {
+            .catch(error => {
                 console.log(error)
                 return interaction.reply({ content: 'Error uploading transcript!', ephemeral: true });
             });
@@ -41,18 +41,33 @@ module.exports = {
 
             const embed = new EmbedBuilder()
                 .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
-                .setDescription(`Your ticket has been closed! You can view the transcript here: ${config.baseticketurl}${interaction.channel.id}.html`)
+                .setDescription(`Thank you for contacting our support! Your ticket has been closed by a staff member.  You can view the transcript here: ${config.baseticketurl}${interaction.channel.id}.html`)
                 .setColor(0xFF0000)
                 .setTimestamp();
+
+            // Search for staff role in guild
+            const staffRole = interaction.guild.roles.cache.find(role => role.name === 'Staff');
+
+            if(!staffRole) return interaction.reply({ content: 'Staff role not found!', ephemeral: true });
+
             // Loop through all users
             members.forEach(member => {
                 // Check if user has the staff role
-                if (!member.roles.cache.has(config.staffRole) && !member.user.bot) {
+                if (!member.roles.cache.has(staffRole.id) && !member.user.bot) {
+                    // Send the user a message
                     member.send({ embeds: [embed] });
                 }
             });
 
+            const userEmbed = new EmbedBuilder()
+                .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
+                .setDescription(`You have closed a ticket.  You can view the transcript here: ${config.baseticketurl}${interaction.channel.id}.html`)
+                .setColor(0xFF0000)
+                .setTimestamp();
+
             // Send a message to the user
+            interaction.user.send({ embeds: [userEmbed] });
+
             interaction.reply({ content: 'Ticket closed!', ephemeral: true });
             
         } else {
