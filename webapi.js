@@ -10,6 +10,72 @@ module.exports.registerWebAPI = function (client) {
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
 
+    // register /chat route
+    router.post('/chat',(request,response) => {
+        // Check if the secret is correct
+        if(request.body.secret != config.secret) {
+            // Secret is incorrect, return 401
+            response.status(401).send("Invalid secret");
+            return;
+        }
+
+        const channel = client.channels.cache.get(config.relaychannelid);
+
+        // Send a message to the channel
+        channel.send("**[" + request.body.server + "] **" + request.body.user + " » " + request.body.message);
+
+        // Send the response
+        response.send("OK");
+    });
+    
+    // register /network-join route
+    router.post('/network-join',(request,response) => {
+        // Check if the secret is correct
+        if(request.body.secret != config.secret) {
+            // Secret is incorrect, return 401
+            response.status(401).send("Invalid secret");
+            return;
+        }
+
+        const channel = client.channels.cache.get(config.relaychannelid);
+
+        // Create the embed
+        const embed = new EmbedBuilder()
+            .setDescription("**" + request.body.user + " joined the network.**")
+            .setColor(0x00FF00)
+            .setTimestamp();
+        
+        // Send a embed to the channel
+        channel.send({ embeds: [embed] });
+
+        // Send the response
+        response.send("OK");
+    });
+
+    // register /network-leave route
+    router.post('/network-leave',(request,response) => {
+        // Check if the secret is correct
+        if(request.body.secret != config.secret) {
+            // Secret is incorrect, return 401
+            response.status(401).send("Invalid secret");
+            return;
+        }
+
+        const channel = client.channels.cache.get(config.relaychannelid);
+
+        // Create the embed
+        const embed = new EmbedBuilder()
+            .setDescription("**" + request.body.user + " left the network.**")
+            .setColor(0xFF0000)
+            .setTimestamp();
+
+        // Send a embed to the channel
+        channel.send({ embeds: [embed] });
+
+        // Send the response
+        response.send("OK");
+    });
+    
     // register /suggest route
     router.post('/suggest',(request,response) => {
         // Check if the secret is correct
