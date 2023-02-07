@@ -21,8 +21,11 @@ module.exports.registerWebAPI = function (client) {
 
         const channel = client.channels.cache.get(config.relaychannelid);
 
+        reqmsg = request.body.message;
+        message = reqmsg.replace(/@/g, "☺");
+
         // Send a message to the channel
-        channel.send("**[" + request.body.server + "] **" + request.body.user + " » " + request.body.message);
+        channel.send("**[" + request.body.server + "] **" + request.body.user + " » " + message);
 
         // Send the response
         response.send("OK");
