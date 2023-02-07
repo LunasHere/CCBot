@@ -5,6 +5,7 @@
     "clientid": "",
     "suggestionchannelid": "",
     "shoppurchasechannelid": "",
+    "relaychannelid": "",
     "baseticketurl": "",
     "ticketuploadurl": "",
     "mysql": {
