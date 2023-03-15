@@ -36,9 +36,7 @@ module.exports = {
 
                 hasAttachment = true;
             }
-            // Delete the channel
-            interaction.channel.delete();
-
+            
             // Get all users in the ticket
             const members = interaction.channel.members;
 
@@ -81,7 +79,11 @@ module.exports = {
                 interaction.user.send({ embeds: [userEmbed] }).catch(err => console.log(err));
             }
 
-            interaction.reply({ content: 'Ticket closed!', ephemeral: true });
+            // Reply to message
+            interaction.reply({ content: 'Closing ticket...', ephemeral: true });
+            
+            // Delete the channel
+            interaction.channel.delete();
             
         } else {
             // Send a message to the user
