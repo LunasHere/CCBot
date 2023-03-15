@@ -39,7 +39,7 @@ module.exports = {
             .addFields({ name: 'Reason', value: reason, inline: true }, { name: 'Warnings', value: `${warns + 1}`, inline: true }, { name: 'Case ID', value: `${caseid}`, inline: true })
             .setColor(0xFF0000)
             .setTimestamp();
-        user.send({ embeds: [userembed] });
+        user.send({ embeds: [userembed] }).catch(err => console.log(err));
 
         const embed = new EmbedBuilder()
             .setDescription(`**${user}** has been warned.`)

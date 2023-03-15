@@ -67,18 +67,18 @@ module.exports = {
                 if (!member.roles.cache.has(staffRole.id) && !member.user.bot) {
                     // Send the user a message
                     if(hasAttachment == true) {
-                        member.send({ embeds: [embed], files: [attachment] });
+                        member.send({ embeds: [embed], files: [attachment] }).catch(err => console.log(err));
                     } else {
-                        member.send({ embeds: [embed] });
+                        member.send({ embeds: [embed] }).catch(err => console.log(err));
                     }
                 }
             });
 
             // Send a message to the user
             if(hasAttachment == true) {
-                interaction.user.send({ embeds: [userEmbed], files: [attachment] });
+                interaction.user.send({ embeds: [userEmbed], files: [attachment] }).catch(err => console.log(err));
             } else {
-                interaction.user.send({ embeds: [userEmbed] });
+                interaction.user.send({ embeds: [userEmbed] }).catch(err => console.log(err));
             }
 
             interaction.reply({ content: 'Ticket closed!', ephemeral: true });
