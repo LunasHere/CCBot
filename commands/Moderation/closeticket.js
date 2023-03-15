@@ -14,37 +14,48 @@ module.exports = {
     async execute(interaction) {
         // Check if the channel is a ticket
         if (interaction.channel.name.startsWith('ticket-')) {
-
+            hasAttachment = false;
             const attachment = await discordTranscripts.createTranscript(interaction.channel, {
                 limit: -1, // Max amount of messages to fetch. `-1` recursively fetches.
-                returnType: 'buffer', // Valid options: 'buffer' | 'string' | 'attachment' Default: 'attachment' OR use the enum ExportReturnType
+                returnType: `${config.ticketuploading.enabled ? "buffer" : "attachment"}`, // Valid options: 'buffer' | 'string' | 'attachment' Default: 'attachment' OR use the enum ExportReturnType
                 saveImages: true, // Download all images and include the image data in the HTML (allows viewing the image even after it has been deleted) (! WILL INCREASE FILE SIZE !)
                 poweredBy: true // Whether to include the "Powered by discord-html-transcripts" footer
             });
+            if(config.ticketuploading.enabled == true) {
+                const form = new FormData();
+                form.append('transcript', attachment, `${interaction.channel.id}.html`);
+                form.append('secret', config.secret);
 
-            const form = new FormData();
-            form.append('transcript', attachment, `${interaction.channel.id}.html`);
-            form.append('secret', config.secret);
+                // Send the transcipt html file to upload.php
+                axios.post(config.ticketuploading.uploadurl, form)
+                .catch(error => {
+                    console.log(error)
+                    return interaction.reply({ content: 'Error uploading transcript!', ephemeral: true });
+                });
+            } else {
 
-            // Send the transcipt html file to upload.php
-            axios.post(config.ticketuploadurl, form)
-            .catch(error => {
-                console.log(error)
-                return interaction.reply({ content: 'Error uploading transcript!', ephemeral: true });
-            });
-
+                hasAttachment = true;
+            }
             // Delete the channel
             interaction.channel.delete();
 
             // Get all users in the ticket
             const members = interaction.channel.members;
 
+            const url = `${config.ticketuploading.baseurl}${interaction.channel.id}.html`;
+
             const embed = new EmbedBuilder()
                 .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
-                .setDescription(`Thank you for contacting our support! Your ticket has been closed by a staff member.  You can view the transcript here: ${config.baseticketurl}${interaction.channel.id}.html`)
+                .setDescription(`Thank you for contacting our support! Your ticket has been closed by a staff member.  You can view the transcript here: ${hasAttachment ? "" : url }`)
                 .setColor(0xFF0000)
                 .setTimestamp();
 
+            const userEmbed = new EmbedBuilder()
+                .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
+                .setDescription(`You have closed a ticket.  You can view the transcript here: ${hasAttachment ? "" : url }`)
+                .setColor(0xFF0000)
+                .setTimestamp();
+            
             // Search for staff role in guild
             const staffRole = interaction.guild.roles.cache.find(role => role.name === 'Staff');
 
@@ -55,18 +66,20 @@ module.exports = {
                 // Check if user has the staff role
                 if (!member.roles.cache.has(staffRole.id) && !member.user.bot) {
                     // Send the user a message
-                    member.send({ embeds: [embed] });
+                    if(hasAttachment == true) {
+                        member.send({ embeds: [embed], files: [attachment] });
+                    } else {
+                        member.send({ embeds: [embed] });
+                    }
                 }
             });
 
-            const userEmbed = new EmbedBuilder()
-                .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
-                .setDescription(`You have closed a ticket.  You can view the transcript here: ${config.baseticketurl}${interaction.channel.id}.html`)
-                .setColor(0xFF0000)
-                .setTimestamp();
-
             // Send a message to the user
-            interaction.user.send({ embeds: [userEmbed] });
+            if(hasAttachment == true) {
+                interaction.user.send({ embeds: [userEmbed], files: [attachment] });
+            } else {
+                interaction.user.send({ embeds: [userEmbed] });
+            }
 
             interaction.reply({ content: 'Ticket closed!', ephemeral: true });
             

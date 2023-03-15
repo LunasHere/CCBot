@@ -6,8 +6,11 @@
     "suggestionchannelid": "",
     "shoppurchasechannelid": "",
     "relaychannelid": "",
-    "baseticketurl": "",
-    "ticketuploadurl": "",
+    "ticketuploading": {
+        "enabled": false,
+        "uploadurl": "",
+        "baseurl": ""
+    },
     "mysql": {
         "host": "",
         "user": "",
