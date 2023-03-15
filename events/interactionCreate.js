@@ -46,6 +46,11 @@ module.exports = {
 
                 modal.addComponents(descriptionRow);
 
+                const cooldown = await interaction.client.cooldownManager.getCooldown('ticket', interaction.user);
+                if (cooldown > Date.now()) {
+                    return interaction.reply({ content: `Please do not spam tickets!`, ephemeral: true });
+                }
+                interaction.client.cooldownManager.addCooldown('ticket', interaction.user, 5*60*1000);
                 await interaction.showModal(modal);
             }
             return;
