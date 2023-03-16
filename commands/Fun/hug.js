@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const AnimeImages = require('anime-images-api');
+
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -13,15 +13,16 @@ module.exports = {
         // Get the user to hug
         const user = interaction.options.getUser('user');
 
-        const api = new AnimeImages();
-        const hug = await api.sfw.hug();
+        // Get the image
+        const res = await fetch('https://api.waifu.pics/sfw/hug');
+        const hug = await res.json();
 
         // Create the embed
         const embed = new EmbedBuilder()
             .setTitle('CCBot Fun')
             .setDescription(`${interaction.user} hugged ${user}!`)
             .setColor(0x00FF00)
-            .setImage(hug.image)
+            .setImage(hug.url)
             .setTimestamp();
         await interaction.reply({ embeds: [embed] });
     },

@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const AnimeImages = require('anime-images-api');
+
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -13,15 +13,16 @@ module.exports = {
         // Get the user to pat
         const user = interaction.options.getUser('user');
 
-        const api = new AnimeImages();
-        const pat = await api.sfw.pat();
+        // Get the image
+        const res = await fetch('https://api.waifu.pics/sfw/pat');
+        const pat = await res.json();
 
         // Create the embed
         const embed = new EmbedBuilder()
             .setTitle('CCBot Fun')
             .setDescription(`${interaction.user} patted ${user}!`)
             .setColor(0x00FF00)
-            .setImage(pat.image)
+            .setImage(pat.url)
             .setTimestamp();
         await interaction.reply({ embeds: [embed] });
     },
