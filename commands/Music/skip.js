@@ -23,7 +23,7 @@ module.exports = {
         // Skip the song
         interaction.client.player.getQueue(interaction.guild).skip();
         const embed = new EmbedBuilder()
-            .setTitle('CCBot Music')
+            .setTitle(`${interaction.client.config.botname} Music`)
             .setDescription('Skipped the current song!')
             .setColor(0x00FF00)
             .setTimestamp();

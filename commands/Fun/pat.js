@@ -19,7 +19,7 @@ module.exports = {
 
         // Create the embed
         const embed = new EmbedBuilder()
-            .setTitle('CCBot Fun')
+            .setTitle(`${interaction.client.config.botname} Fun`)
             .setDescription(`${interaction.user} patted ${user}!`)
             .setColor(0x00FF00)
             .setImage(pat.url)

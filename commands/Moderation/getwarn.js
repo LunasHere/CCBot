@@ -23,7 +23,7 @@ module.exports = {
             user = warn.userid + ' (Could not fetch user)';
         });
         const embed = new EmbedBuilder()
-            .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
+            .setAuthor({ name: `${interaction.client.config.botname} Moderation`, iconURL: `${interaction.client.config.boticon}` })
             .setDescription(`**Case ID:** ${warn.caseid}\n**User:** ${user}\n**Reason:** ${warn.reason}\n**Moderator:** ${warn.warnedby}\n**Date:** ${warn.date}`)
             .setColor(0xFF0000)
             .setTimestamp();

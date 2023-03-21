@@ -78,7 +78,7 @@ module.exports = {
                     
         // Create the embed
         const embed = new EmbedBuilder()
-            .setTitle('CCBot Games')
+            .setTitle(`${interaction.client.config.botname} Games`)
             .setDescription(`You chose ${choice}, I chose ${botChoiceString}!\n\n${text}`)
             .setColor(0x00FF00)
             .setTimestamp();

@@ -49,7 +49,7 @@ module.exports = {
             interaction.client.player.getQueue(interaction.guild).setPaused(false);
             interaction.client.player.getQueue(interaction.guild).metadata.isPlaying = true;
             const embed = new EmbedBuilder()
-                .setTitle('CCBot Music')
+                .setTitle(`${interaction.client.config.botname} Music`)
                 .setDescription('Unpaused the current song!')
                 .setColor(0x00FF00)
                 .setTimestamp();
@@ -69,7 +69,7 @@ module.exports = {
             const playlist = result.playlist;
             await queue.addTracks(result.tracks);
             const embed = new EmbedBuilder()
-                .setTitle('CCBot Music')
+                .setTitle(`${interaction.client.config.botname} Music`)
                 .setDescription(`${result.tracks.length} songs from playlist [${playlist.title}](${playlist.url}) have been added to the Queue`)
                 .setColor(0x00FF00)
                 .setTimestamp();
@@ -87,7 +87,7 @@ module.exports = {
             const song = result.tracks[0];
             await queue.addTrack(song);
             const embed = new EmbedBuilder()
-                .setTitle('CCBot Music')
+                .setTitle(`${interaction.client.config.botname} Music`)
                 .setDescription(`Added [${song.title}](${song.url}) to the queue!`)
                 .setColor(0x00FF00)
                 .setTimestamp();
@@ -105,7 +105,7 @@ module.exports = {
             const song = result.tracks[0];
             await queue.addTrack(song);
             const embed = new EmbedBuilder()
-                .setTitle('CCBot Music')
+                .setTitle(`${interaction.client.config.botname} Music`)
                 .setDescription(`Added [${song.title}](${song.url}) to the queue!`)
                 .setColor(0x00FF00)
                 .setTimestamp();

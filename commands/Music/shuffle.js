@@ -16,7 +16,7 @@ module.exports = {
 
         // Create the embed
         const embed = new EmbedBuilder()
-            .setTitle("CCBot Music")
+            .setTitle(`${interaction.client.config.botname} Music`)
             .setDescription("🔀 | Queue shuffled.")
             .setColor(0x00FF00)
             .setTimestamp();

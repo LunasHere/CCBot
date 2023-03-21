@@ -20,7 +20,7 @@ module.exports = {
         }
         await interaction.client.warnManager.removeWarn(caseid);
         const embed = new EmbedBuilder()
-            .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
+            .setAuthor({ name: `${interaction.client.config.botname} Moderation`, iconURL: `${interaction.client.config.boticon}` })
             .setDescription(`Warn with Case ID ${caseid} has been removed.`)
             .setColor(0xFF0000)
             .setTimestamp();

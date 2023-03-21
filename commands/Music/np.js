@@ -31,7 +31,7 @@ module.exports = {
         });
         // Create the embed
         const embed = new EmbedBuilder()
-            .setTitle('CCBot Music')
+            .setTitle(`${interaction.client.config.botname} Music`)
             .setDescription(`Now playing: [${song.title}](${song.url})\n\n${bar}`)
             .setColor(0x00FF00)
             .setTimestamp();

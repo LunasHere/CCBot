@@ -34,7 +34,7 @@ module.exports = {
         const channel = await interaction.client.ticketManager.createTicket(interaction.guild, user, type, `Ticket created by staff member ${interaction.user}`);
         // Create embed
         const embed = new EmbedBuilder()
-            .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
+            .setAuthor({ name: `${interaction.client.config.botname} Moderation`, iconURL: `${interaction.client.config.boticon}` })
             .setDescription(`This ticket has been created by **${interaction.user}** for **${user}**!`)
             .setColor(0xFF0000)
             .setTimestamp();

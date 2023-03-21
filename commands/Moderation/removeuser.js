@@ -25,7 +25,7 @@ module.exports = {
 
         // Create the embed
         const embed = new EmbedBuilder()
-            .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
+            .setAuthor({ name: `${interaction.client.config.botname} Moderation`, iconURL: `${interaction.client.config.boticon}` })
             .setDescription(`**${user}** has been removed from the ticket!`)
             .setColor(0xFF0000)
             .setTimestamp();

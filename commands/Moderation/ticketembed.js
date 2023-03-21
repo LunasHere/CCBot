@@ -8,7 +8,7 @@ module.exports = {
         .setDMPermission(false),
     async execute(interaction) {
         const embed = new EmbedBuilder()
-            .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
+            .setAuthor({ name: `${interaction.client.config.botname} Moderation`, iconURL: `${interaction.client.config.boticon}` })
             .setDescription('Please click the button below to create a ticket!')
             .setColor(0xFF0000);
         const row = new ActionRowBuilder()

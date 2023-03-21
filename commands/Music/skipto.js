@@ -37,7 +37,7 @@ module.exports = {
         }
         // Create the embed
         const embed = new EmbedBuilder()
-            .setTitle('CCBot Music')
+            .setTitle(`${interaction.client.config.botname} Music`)
             .setDescription(`Skipped to song [${interaction.client.player.getQueue(interaction.guild).tracks[interaction.options.getInteger('song')-1].title}!](${interaction.client.player.getQueue(interaction.guild).tracks[interaction.options.getInteger('song')-1].url})`)
             .setColor(0x00FF00)
             .setTimestamp();

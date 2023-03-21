@@ -11,6 +11,8 @@
         "uploadurl": "",
         "baseurl": ""
     },
+    "botname": "CCBot",
+    "boticon": "",
     "mysql": {
         "host": "",
         "user": "",

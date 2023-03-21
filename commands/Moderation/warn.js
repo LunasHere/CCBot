@@ -28,14 +28,14 @@ module.exports = {
         const modembed = new EmbedBuilder()
             .setDescription(`**${user.username}#${user.discriminator}** has been warned by **${interaction.user}** for **${reason}**`)
             .addFields({ name: 'Warnings', value: `${warns + 1}`, inline: true }, { name: 'Case ID', value: `${caseid}`, inline: true })
-            .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
+            .setAuthor({ name: `${interaction.client.config.botname} Moderation`, iconURL: `${interaction.client.config.boticon}` })
             .setColor(0xFF0000)
             .setTimestamp();
         channel.send({ embeds: [modembed] });
 
         const userembed = new EmbedBuilder()
             .setDescription(`You have been warned in **${interaction.guild.name}**.  Please be sure to read the rules and follow them.  If you continue to break the rules, you will be kicked or banned.`)
-            .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
+            .setAuthor({ name: `${interaction.client.config.botname} Moderation`, iconURL: `${interaction.client.config.boticon}` })
             .addFields({ name: 'Reason', value: reason, inline: true }, { name: 'Warnings', value: `${warns + 1}`, inline: true }, { name: 'Case ID', value: `${caseid}`, inline: true })
             .setColor(0xFF0000)
             .setTimestamp();
@@ -44,7 +44,7 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setDescription(`**${user}** has been warned.`)
             .addFields({ name: 'Reason', value: reason, inline: true })
-            .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
+            .setAuthor({ name: `${interaction.client.config.botname} Moderation`, iconURL: `${interaction.client.config.boticon}` })
             .setColor(0xFF0000)
             .setTimestamp();
         interaction.channel.send({ embeds: [embed] });

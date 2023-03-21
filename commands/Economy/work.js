@@ -15,7 +15,7 @@ module.exports = {
         interaction.client.economyManager.addBalance(interaction.user, amount);
         interaction.client.cooldownManager.addCooldown('work', interaction.user, 86400000);
         const embed = new EmbedBuilder()
-            .setTitle('Work')
+            .setTitle(`${interaction.client.config.botname} Work`)
             .setDescription(`🪙 | You worked and earned ${amount} coins!`)
             .setColor(0x00FF00)
             .setTimestamp();

@@ -47,6 +47,8 @@ con.query(
 
 client.con = con;
 
+client.config = config;
+
 // Register the commands
 const commands = [];
 client.commands = new Collection();

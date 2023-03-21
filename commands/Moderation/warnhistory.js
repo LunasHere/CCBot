@@ -12,7 +12,7 @@ module.exports = {
         const warns = await interaction.client.warnManager.getWarnsForUser(user);
         if (warns.length === 0) {
             const nowarns = new EmbedBuilder()
-                .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
+                .setAuthor({ name: `${interaction.client.config.botname} Moderation`, iconURL: `${interaction.client.config.boticon}` })
                 .setDescription(`**${user.username}#${user.discriminator}** has no warns.`)
                 .setColor(0xFF0000)
                 .setTimestamp();
@@ -22,7 +22,7 @@ module.exports = {
             + warns.map(warn => `**Case ID:** ${warn.caseid}\n**Reason:** ${warn.reason}\n**Moderator:** ${warn.warnedby}\n**Date:** ${warn.date}\n`).join('\n------------------------\n\n') 
             + '\n------------------------\n\n';
         const embed = new EmbedBuilder()
-            .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
+            .setAuthor({ name: `${interaction.client.config.botname} Moderation`, iconURL: `${interaction.client.config.boticon}` })
             .setDescription(`**${user.username}#${user.discriminator}**'s warn history is as follows:\n\n${desc}`)
             .setColor(0xFF0000)
             .setTimestamp();

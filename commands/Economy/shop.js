@@ -36,7 +36,7 @@ module.exports = {
             }
             interaction.client.economyManager.removeBalance(interaction.user, item.price);
             const embed = new EmbedBuilder()
-                .setTitle('CC Shop')
+                .setTitle(`${interaction.client.config.botname} Economy`)
                 .setDescription(`🛒 | You bought ${item.name} for ${item.price} coins!  Staff will contact you shortly to deliver your item.`)
                 .setColor(0x00FF00)
                 .setTimestamp();
@@ -50,7 +50,7 @@ module.exports = {
             channel.send({ embeds: [embed2] });
         } else if (interaction.options.getSubcommand() === 'show') {
             const embed = new EmbedBuilder()
-                .setTitle('CC Shop')
+                .setTitle(`${interaction.client.config.botname} Economy`)
                 .setDescription(shop.items.map(i => `${i.id} | **${i.name}** - ${i.price} coins`).join('\n'))
                 .setColor(0x00FF00)
                 .setTimestamp();

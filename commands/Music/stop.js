@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('stop')
@@ -24,7 +25,7 @@ module.exports = {
         interaction.client.player.getQueue(interaction.guild).destroy();
         // Create the embed
         const embed = new EmbedBuilder()
-            .setTitle('CCBot Music')
+            .setTitle(`${interaction.client.config.botname} Music`)
             .setDescription('Stopped the music!')
             .setColor(0x00FF00)
             .setTimestamp();

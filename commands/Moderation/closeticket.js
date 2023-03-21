@@ -43,13 +43,13 @@ module.exports = {
             const url = `${config.ticketuploading.baseurl}${interaction.channel.id}.html`;
 
             const embed = new EmbedBuilder()
-                .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
+                .setAuthor({ name: `${interaction.client.config.botname} Moderation`, iconURL: `${interaction.client.config.boticon}` })
                 .setDescription(`Thank you for contacting our support! Your ticket has been closed by a staff member.  You can view the transcript here: ${hasAttachment ? "" : url }`)
                 .setColor(0xFF0000)
                 .setTimestamp();
 
             const userEmbed = new EmbedBuilder()
-                .setAuthor({ name: "CottonCraft Administration", iconURL: "https://i.lunashere.com/cf45a.png" })
+                .setAuthor({ name: `${interaction.client.config.botname} Moderation`, iconURL: `${interaction.client.config.boticon}` })
                 .setDescription(`You have closed a ticket.  You can view the transcript here: ${hasAttachment ? "" : url }`)
                 .setColor(0xFF0000)
                 .setTimestamp();

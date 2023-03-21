@@ -29,7 +29,7 @@ module.exports = {
         interaction.client.player.getQueue(interaction.guild).setPaused(true);
         interaction.client.player.getQueue(interaction.guild).metadata.isPlaying = false;
         const embed = new EmbedBuilder()
-            .setTitle('CCBot Music')
+            .setTitle(`${interaction.client.config.botname} Music`)
             .setDescription('Paused the current song!')
             .setColor(0x00FF00)
             .setTimestamp();
